@@ -1,6 +1,6 @@
 import logging
 import os
-from typing import Any, Dict
+from typing import Any, Dict, Optional
 
 from chask_foundation.api.api_manager import ApiManager
 from chask_foundation.backend.models import OrchestrationEvent
@@ -8,26 +8,27 @@ from chask_foundation.backend.models import OrchestrationEvent
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
+_users_api_manager: Optional[ApiManager] = None
 
-def _api_base_url() -> str:
+
+def _get_users_api_manager() -> ApiManager:
+    global _users_api_manager
+    if _users_api_manager is not None:
+        return _users_api_manager
     base_domain = os.getenv("BASE_DOMAIN")
     if not base_domain:
         raise ValueError("BASE_DOMAIN is required for chask_api calls")
-    if base_domain.startswith("http://") or base_domain.startswith("https://"):
-        return f"{base_domain.rstrip('/')}/api/v2/users"
-    return f"https://{base_domain.rstrip('/')}/api/v2/users"
+    if not (base_domain.startswith("http://") or base_domain.startswith("https://")):
+        base_domain = f"https://{base_domain}"
+    base_url = f"{base_domain.rstrip('/')}/api/v2/users"
+    manager = ApiManager(base_url=base_url)
 
+    @manager.register("save_user_profile", "save-user-profile", "POST")
+    def _save_user_profile(**payload: Any) -> Dict[str, Any]:
+        return {"json": payload}
 
-users_api_manager = ApiManager(base_url=_api_base_url())
-
-
-@users_api_manager.register(
-    "save_user_profile",
-    "save-user-profile",
-    "POST",
-)
-def save_user_profile(**payload: Any) -> Dict[str, Any]:
-    return {"json": payload}
+    _users_api_manager = manager
+    return _users_api_manager
 
 
 class FunctionBackend:
@@ -64,7 +65,7 @@ class FunctionBackend:
             user_uuid,
             sorted(profile_fields.keys()),
         )
-        users_api_manager.call(
+        _get_users_api_manager().call(
             "save_user_profile",
             access_token=self.orchestration_event.access_token,
             organization_id=str(self.orchestration_event.organization.organization_id),
@@ -92,7 +93,7 @@ class FunctionBackend:
             "skills",
         )
         return {
-            key: value
-            for key, value in ((field, tool_args.get(field)) for field in allowed_fields)
-            if value not in (None, "", [], {})
+            field: tool_args[field]
+            for field in allowed_fields
+            if tool_args.get(field) not in (None, "", [], {})
         }
