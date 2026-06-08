@@ -64,13 +64,19 @@ class FunctionBackend:
             bool(user_uuid),
             sorted(profile_fields.keys()),
         )
-        _get_users_api_manager().call(
-            "save_user_profile",
-            access_token=self.orchestration_event.access_token,
-            organization_id=str(self.orchestration_event.organization.organization_id),
-            timeout=30,
-            **payload,
-        )
+        try:
+            _get_users_api_manager().call(
+                "save_user_profile",
+                access_token=self.orchestration_event.access_token,
+                organization_id=str(self.orchestration_event.organization.organization_id),
+                timeout=30,
+                **payload,
+            )
+        except Exception as exc:
+            if "Orchestration session is not linked to a user" in str(exc):
+                logger.warning("Profile endpoint could not resolve session user: %s", exc)
+                return "The profile was not saved because this orchestration session is not linked to a user."
+            raise
 
         return "Saved the user's profile details for this process mapping session."
 
