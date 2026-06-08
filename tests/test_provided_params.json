@@ -1,0 +1,48 @@
+{
+  "function_name": "SaveUserProfileFn",
+  "test_type": "provided_params",
+  "args": {
+    "job_title": "Operations Manager",
+    "department": "Operations",
+    "seniority": "Senior",
+    "responsibilities": [
+      "Approves purchase orders",
+      "Coordinates warehouse replenishment"
+    ],
+    "bio": "Coordinates purchasing and stock replenishment for the operations team.",
+    "skills": [
+      "procurement",
+      "warehouse operations"
+    ]
+  },
+  "widget_params": {},
+  "prompt": "Save this user's process mapping profile details.",
+  "event_type": "function_call",
+  "extra_params": {
+    "tool_calls": [
+      {
+        "id": "call_save_profile_test",
+        "name": "SaveUserProfileFn",
+        "args": {
+          "job_title": "Operations Manager",
+          "department": "Operations",
+          "seniority": "Senior",
+          "responsibilities": [
+            "Approves purchase orders",
+            "Coordinates warehouse replenishment"
+          ],
+          "bio": "Coordinates purchasing and stock replenishment for the operations team.",
+          "skills": [
+            "procurement",
+            "warehouse operations"
+          ]
+        }
+      }
+    ]
+  },
+  "files": [],
+  "metadata": {
+    "description": "Test SaveUserProfileFn with explicit profile fields in the tool-call shape used by the agent.",
+    "expected_status": "success"
+  }
+}

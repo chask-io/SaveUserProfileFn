@@ -1,0 +1,16 @@
+{
+  "function_name": "SaveUserProfileFn",
+  "test_type": "operator_params",
+  "args": {},
+  "widget_params": {},
+  "prompt": "Save these process mapping profile details for the interviewed user: they are a Senior Operations Manager in Operations. Their responsibilities are approving purchase orders and coordinating warehouse replenishment. Their bio is: Coordinates purchasing and stock replenishment for the operations team. Their skills are procurement and warehouse operations.",
+  "event_type": "function_call",
+  "extra_params": {
+    "is_operator_params_test": true
+  },
+  "files": [],
+  "metadata": {
+    "description": "Test operator generation of SaveUserProfileFn profile fields from a natural-language prompt.",
+    "expected_status": "success"
+  }
+}
