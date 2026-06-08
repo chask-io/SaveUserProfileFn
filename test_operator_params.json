@@ -1,0 +1,8 @@
+{
+  "function_name": "SaveUserProfileFn",
+  "test_type": "operator_params",
+  "args": {},
+  "widget_params": {},
+  "prompt": "The user is a Senior Operations Manager in Operations. Responsibilities: approves purchase orders and coordinates warehouse replenishment. Bio: Coordinates purchasing and stock replenishment for the operations team. Skills: procurement, warehouse operations.",
+  "files": []
+}

@@ -1,0 +1,21 @@
+{
+  "function_name": "SaveUserProfileFn",
+  "test_type": "provided_params",
+  "args": {
+    "job_title": "Operations Manager",
+    "department": "Operations",
+    "seniority": "Senior",
+    "responsibilities": [
+      "Approves purchase orders",
+      "Coordinates warehouse replenishment"
+    ],
+    "bio": "Coordinates purchasing and stock replenishment for the operations team.",
+    "skills": [
+      "procurement",
+      "warehouse operations"
+    ]
+  },
+  "widget_params": {},
+  "prompt": "Save this user's process mapping profile details.",
+  "files": []
+}

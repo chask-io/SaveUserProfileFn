@@ -1,0 +1,43 @@
+function:
+  name: SaveUserProfileFn
+  runtime: python3.12
+  handler: handler.lambda_handler
+  description: >
+    Save process-mapping user profile fields for the target user in the
+    current orchestration conversation.
+  timeout: 120
+  memory_size: 256
+  type: function
+  layers:
+    - foundationMinimal
+    - foundationApi
+  parameters:
+    required: []
+    optional:
+      - name: job_title
+        type: string
+        description: The user's current job title.
+      - name: department
+        type: string
+        description: The department or area where the user works.
+      - name: seniority
+        type: string
+        description: The user's seniority or level.
+      - name: responsibilities
+        type: array
+        description: The user's main responsibilities, as text or a list.
+      - name: bio
+        type: string
+        description: Short professional bio or role summary for the user.
+      - name: skills
+        type: array
+        description: Skills, tools, or areas of expertise for the user.
+  widget:
+    enabled: false
+    type: dynamic_widget
+    params: []
+  testing:
+    handles_files: false
+    produces_files: false
+  environment:
+    BASE_DOMAIN: icier-vampishly-tangela.ngrok-free.app
